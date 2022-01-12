@@ -29,26 +29,12 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: 'JaCoCo'
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/CICDJAVA/**/site/cobertura/coverage.xml'
 - task: Docker@2
   inputs:
-    containerRegistry: 'acr'
-    repository: 'vlogjava.azurecr.io'
+    containerRegistry: 'acrvpro'
+    repository: 'dev'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: |
       $(Build.BuildId)
       latest
-
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'azure connection'
-    appType: 'webAppContainer'
-    WebAppName: 'devlogin123'
-    DockerNamespace: 'vlogjava.azurecr.io'
-    DockerRepository: 'java'
-    DockerImageTag: 'latest'
