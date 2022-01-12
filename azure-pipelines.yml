@@ -19,22 +19,18 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    codeCoverageToolOption: 'JaCoCo'
     goals: 'package'
 - task: CopyFiles@2
   inputs:
-    Contents: '**/*.war'
+    Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)'
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- task: Docker@2
+- task: PublishCodeCoverageResults@1
   inputs:
-    containerRegistry: 'acrvpro'
-    repository: 'dev'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: |
-      $(Build.BuildId)
-      latest
+    codeCoverageTool: 'JaCoCo'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/CICDJAVA/**/site/cobertura/coverage.xml'
