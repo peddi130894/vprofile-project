@@ -36,8 +36,8 @@ steps:
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/CICDJAVA/**/site/cobertura/coverage.xml'
 - task: Docker@2
   inputs:
-    containerRegistry: 'acr'
-    repository: 'javaapp'
+    containerRegistry: 'acrvpro'
+    repository: 'devjava'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: |
