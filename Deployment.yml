@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: vlogdeployment1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vlogupdate1
+  strategy: 
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  template:
+    metadata:
+      name: vlog-pod1
+      labels:
+        app: vlogupdate1
+    spec:
+      containers:
+      - name: vlogincontainer
+        image: peddireddy13/vlog:latest
+        ports:
+        - containerPort: 8080     
+---
+apiVersion: v1
+kind: service
+metadata:
+  name: rollingsvc
+spec:
+  type: LoadBalancer
+  selector:
+    app: vlogupdate1
+  ports:
+  - port: 8080
+    targetPort: 8080  
