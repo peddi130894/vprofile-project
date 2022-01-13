@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
-  name: vlogdeployment1
+metadata:
+  name: vlogdeployment
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      app: vlogupdate1
-  strategy: 
+      app: vlogupdate
+  strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
@@ -15,24 +15,25 @@ spec:
   minReadySeconds: 30
   template:
     metadata:
-      name: vlog-pod1
+      name: vlog-pod
       labels:
-        app: vlogupdate1
+        app: vlogupdate
     spec:
       containers:
       - name: vlogincontainer
         image: peddireddy13/vlog:latest
         ports:
-        - containerPort: 8080     
+        - containerPort: 8080
 ---
 apiVersion: v1
-kind: service
+kind: Service
 metadata:
   name: rollingsvc
 spec:
   type: LoadBalancer
   selector:
-    app: vlogupdate1
+    app: vlogupdate
   ports:
   - port: 8080
-    targetPort: 8080  
+    targetPort: 8080
+-- INSERT --                  
