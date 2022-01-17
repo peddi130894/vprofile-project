@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: vlogincontainer
-        image: peddireddy13/vlog:latest
+        image: acrvpro/devjava:latest
         ports:
         - containerPort: 8080
 ---
