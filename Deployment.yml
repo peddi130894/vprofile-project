@@ -1,39 +1,34 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: ReplicaSet
 metadata:
-  name: vlogdeployment
+  name: vlog1-rs
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: vlogupdate
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxUnavailable: 1
-      maxSurge: 1
-  minReadySeconds: 30
+      app: vlog1
   template:
     metadata:
-      name: vlog-pod
+      name: vlog1-pod
       labels:
-        app: vlogupdate
+        app: vlog1
     spec:
       containers:
-      - name: vlogincontainer
-        image: acrvpro/devjava:latest
+      - name: vlog1
+        image: acrvpro/vprofile:latest
         ports:
-        - containerPort: 8080
+          - containerPort: 8080
+          
+## create loadBalancer service for replicaset
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: rollingsvc
+  name: vlogsvc
 spec:
   type: LoadBalancer
   selector:
-    app: vlogupdate
+    app: vlog1
   ports:
   - port: 8080
     targetPort: 8080
--- INSERT --                  
