@@ -36,11 +36,10 @@ steps:
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/CICDJAVA/**/site/cobertura/coverage.xml'
 - task: Docker@2
   inputs:
-    containerRegistry: 'acrvpro'
-    repository: 'dev'
+    containerRegistry: 'docker'
+    repository: 'peddireddy13/java1'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: |
       $(Build.BuildId)
       latest
-
